@@ -1,0 +1,27 @@
+name: Build & Release (Windows)
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx electron-builder --win --x64 --publish never
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: رصيد الإجازات ${{ github.ref_name }}
+          body: |
+            **للتثبيت:** نزّل `HoistLeaves-Setup.exe` وشغّله.
+            **بدون تثبيت:** نزّل `HoistLeaves-Portable.exe` وشغّله مباشرة.
+          files: |
+            dist/HoistLeaves-Setup.exe
+            dist/HoistLeaves-Portable.exe

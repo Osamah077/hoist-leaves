@@ -1,0 +1,74 @@
+{
+  "name": "hoist-leaves",
+  "version": "1.0.0",
+  "description": "رصيد إجازات هويست إنفينيتي",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64"
+  },
+  "keywords": [],
+  "author": "حرص الرقمية",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "^5.3.0",
+    "@fontsource/tajawal": "^5.3.0",
+    "xlsx": "^0.18.5"
+  },
+  "productName": "رصيد الإجازات - هويست",
+  "build": {
+    "appId": "sa.hars.hoist.leaves",
+    "productName": "HoistLeaves",
+    "executableName": "HoistLeaves",
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "رصيد الإجازات - هويست",
+      "artifactName": "HoistLeaves-Setup.${ext}",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerLanguages": [
+        "ar_SA"
+      ],
+      "language": "1025"
+    },
+    "portable": {
+      "artifactName": "HoistLeaves-Portable.${ext}"
+    },
+    "publish": null
+  },
+  "repository": "https://github.com/Osamah077/hoist-leaves"
+}
