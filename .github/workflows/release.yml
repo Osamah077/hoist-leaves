@@ -1,7 +1,7 @@
 name: Build & Release (Windows)
 on:
   push:
-    tags: ['v*']
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: write
@@ -15,10 +15,15 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npx electron-builder --win --x64 --publish never
+      - id: ver
+        shell: bash
+        run: echo "v=v$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
       - uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: رصيد الإجازات ${{ github.ref_name }}
+          tag_name: ${{ steps.ver.outputs.v }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          name: رصيد الإجازات ${{ steps.ver.outputs.v }}
           body: |
             **للتثبيت:** نزّل `HoistLeaves-Setup.exe` وشغّله.
             **بدون تثبيت:** نزّل `HoistLeaves-Portable.exe` وشغّله مباشرة.
